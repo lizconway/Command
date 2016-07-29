@@ -51,10 +51,14 @@ class CommandCtrl extends CI_Controller {
 		/**
 		 * TEST values for $from & $to
 		 */
-		$from = 3;
-		$to = 8;
-		/* $from = 8;
+		/* $from = 3;
+		$to = 8; */
+		/* Descending Test
+		 * $from = 8;
 		$to = 3; */
+		/* Test if the same number
+		 *  $from = 5;
+		$to = 5; */
 
 		/**
 		 * Retrieve model data
