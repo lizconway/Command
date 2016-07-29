@@ -42,16 +42,22 @@ class CommandCtrl extends CI_Controller {
 	 * Maps to the following EndPoint
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getCommandments
 	 */
-	public function getCommandments() {
+	public function getCommandments($from = 0, $to = 0) {
 		$this->load->model('CmdModel', 'cmdData', true);
 
 		$data['commandments'] = array();
 		$cmdmts['commandments'] = array();
 
 		/**
+		 * TEST values for $from & $to
+		 */
+		$from = 3;
+		$to = 8;
+
+		/**
 		 * Retrieve model data
 		 */
-		foreach($this->cmdData->getCommandments() as $cmd) {
+		foreach($this->cmdData->getCommandments($from, $to) as $cmd) {
 			$commandment = array('number' => $cmd->number, 'title' => $cmd->title, 'description' =>$cmd->description, 'url' => $cmd->url);
 			array_push($cmdmts['commandments'], $commandment);
 		}

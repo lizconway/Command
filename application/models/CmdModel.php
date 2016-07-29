@@ -11,8 +11,15 @@ class CmdModel extends CI_Model {
 		//parent::Model();
 	}
 
-	function getCommandments() {
+	function getCommandments($from, $to) {
 		$this->db->select('number, title, description, url')->from('commandments');
+
+		if($from > 0 && $from < 11) {
+			$this->db->where('number >=', $from);
+		}
+		if($to > 0 && $to < 11) {
+			$this->db->where('number <=', $to);
+		}
 
 		$query = $this->db->get();
 
