@@ -58,7 +58,14 @@ class CommandCtrl extends CI_Controller {
 		 * Retrieve model data
 		 */
 		foreach($this->cmdData->getCommandments($from, $to) as $cmd) {
-			$commandment = array('number' => $cmd->number, 'title' => $cmd->title, 'description' =>$cmd->description, 'url' => $cmd->url);
+			/*
+			 * Remove null descriptions so that the Consumer does not have to deal with them
+			 */
+			if($cmd->description === null) {
+				$commandment = array('number' => $cmd->number, 'title' => $cmd->title, 'url' => $cmd->url);
+			} else {
+				$commandment = array('number' => $cmd->number, 'title' => $cmd->title, 'description' =>$cmd->description, 'url' => $cmd->url);
+			}
 			array_push($cmdmts['commandments'], $commandment);
 		}
 		array_push($data['commandments'], $cmdmts);
