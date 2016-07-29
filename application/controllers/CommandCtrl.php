@@ -53,6 +53,8 @@ class CommandCtrl extends CI_Controller {
 		 */
 		$from = 3;
 		$to = 8;
+		/* $from = 8;
+		$to = 3; */
 
 		/**
 		 * Retrieve model data
