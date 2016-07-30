@@ -40,6 +40,10 @@ class CmdModel extends CI_Model {
 // 		echo "Text Speak :  $textSpeak";
 		$this->db->select('txt, english')->from('textSpeak');
 
+		if($textSpeak != null) {
+			$this->db->where('txt', $textSpeak);
+		}
+
 		$query = $this->db->get();
 
 		return $query->result();
