@@ -17,9 +17,9 @@ class CommandCtrl extends CI_Controller {
 	 * Index Page for this controller.
 	 *
 	 * Maps to the following URL
-	 * 		http://localhost/index.php/news
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/CommandCtrl
 	 *	- or -
-	 * 		http://localhost/index.php/news/index
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/CommandCtrl/index
 	 *	- or -
 	 * Since this controller is set as the default controller in
 	 * config/routes.php, it's displayed at http://localhost/ServerSide/Assessment/WebService
@@ -41,6 +41,9 @@ class CommandCtrl extends CI_Controller {
 	/**
 	 * Maps to the following EndPoint
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getCommandments
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments/x/y where x and y are between 1 and 11 inclusive
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments/z where z is between 1 and 11 inclusive
 	 */
 	public function getCommandments($from = 0, $to = 0) {
 		$this->load->model('CmdModel', 'cmdData', true);
@@ -88,8 +91,31 @@ class CommandCtrl extends CI_Controller {
 	/**
 	 * Maps to the following EndPoint
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getTranslations
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/translations
 	 */
-	public function getTranslations() {
+	/* public function getTranslations() {
+		$this->load->model('CmdModel', 'cmdData', true);
+
+		$data['translations'] = array();
+		$translate['textSpeak'] = array();
+
+		// Retrieve data model
+		foreach($this->cmdData->getTranslations(null) as $txt) {
+			$translation = array('txt' => $txt->txt, 'english' => $txt->english);
+			array_push($translate['textSpeak'], $translation);
+		}
+		array_push($data['translations'], $translate);
+
+		$this->load->view('TxtView', $data);
+
+	} */
+
+	/**
+	 * Maps to the following EndPoint
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getTranslations
+	 * 		http://localhost/ServerSide/Assessment/WebService/translations
+	 */
+	public function getTranslations($textSpeak = null) {
 		$this->load->model('CmdModel', 'cmdData', true);
 
 		$data['translations'] = array();
@@ -98,7 +124,7 @@ class CommandCtrl extends CI_Controller {
 		/**
 		 * Retrieve model data
 		 */
-		foreach($this->cmdData->getTranslations() as $txt) {
+		foreach($this->cmdData->getTranslations($textSpeak) as $txt) {
 			$translation = array('txt' => $txt->txt, 'english' => $txt->english);
 			array_push($translate['textSpeak'], $translation);
 		}
@@ -117,36 +143,4 @@ class CommandCtrl extends CI_Controller {
 			->set_output(json_encode($data)); */
 	}
 
-	/**
-	 * Maps to the following URL
-	 * 		http://localhost/index.php/news/report
-	 *	- or -
-	 * Since this controller is NOT the default controller in
-	 * config/routes.php, it's displayed at http://localhost/ServerSide/Assessment/WebService/report
-	 */
-	public function report() {
-		$this->load->model('news_model', '', true);
-		/**
-		 * Read post data from the view
-		 * and save it to the database
-		 */
-		$headline = $this->input->post('title' ,true);
-		$article = $this->input->post('details', true);
-		/** input->post returns null if the post item is not set
-		 * So the following lines should be changed to reflect this
-		 * i.e. test $headline and $article for null
-		 */
-		if(isset($_POST['title']) && isset($_POST['details'])) {
-// 			echo "<br>title set<br>";
-			if(!empty($_POST['title']) && !empty($_POST['details'])) {
-				$this->news_model->insert_news($headline, $article);
-			}
-		}/*  else {
-			echo "<br>title <strong>not</strong> set<br>";
-		} */
-
-		$this->load->view('templates/news_header');
-		$this->load->view('reportNews');
-		$this->load->view('templates/news_footer');
-	}
 }

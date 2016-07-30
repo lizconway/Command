@@ -53,3 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Command';
 $route['404_override'] = 'Error404';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['commandments/(:num)/(:num)'] = 'CommandCtrl/getCommandments/$1/$2';
+$route['commandments/(:num)'] = 'CommandCtrl/getCommandments/$1/$1';
+$route['commandments'] = 'CommandCtrl/getCommandments/0/0';
+$route['translations'] = 'CommandCtrl/getTranslations';
+$route['translations/(:any)']  = 'CommandCtrl/getTranslations/$1';

@@ -18,6 +18,23 @@ $randomImage = $images[$randomNumber];
 	</h2>
 </div>
 <br><br>
-<?php echo anchor('CommandCtrl/getCommandments', 'Get the JSON list of commandments', 'class="button-link"') ?><br><br>
-<?php echo anchor('CommandCtrl/getTranslations', 'Get the JSON list of translations', 'class="button-link"') ?><br><br>
-<?php echo anchor('CommandCtrl/getCommands', 'Get the next random 404', 'class="button-link"') ?><br><br>
+<?php //echo anchor('index.php/CommandCtrl/getCommandments', 'Get the JSON list of commandments', 'class="button-link"');
+echo anchor('index.php/commandments', 'Get the JSON list of commandments', 'class="button-link"');
+echo "&nbsp;&nbsp;index.php/commandments";
+?><br><br>
+<?php //echo anchor('index.php/CommandCtrl/getCommandments', 'Get the JSON list of commandments', 'class="button-link"');
+echo anchor('index.php/commandments/5', 'Get a single commandment (#5)', 'class="button-link"');
+echo "&nbsp;&nbsp;index.php/commandments/5";
+?><br><br>
+<?php //echo anchor('index.php/CommandCtrl/getCommandments', 'Get the JSON list of commandments', 'class="button-link"');
+echo anchor('index.php/commandments/2/7', 'Get a subset of commandments (#2 - #7)', 'class="button-link"');
+echo "&nbsp;&nbsp;index.php/commandments/2/7";
+?><br><br>
+<?php //echo anchor('index.php/CommandCtrl/getCommandments', 'Get the JSON list of commandments', 'class="button-link"');
+echo anchor('index.php/commandments/8/4', 'Get a reversed subset of commandments (#8 - #4)', 'class="button-link"');
+echo "&nbsp;&nbsp;index.php/commandments/8/4";
+?><br><br>
+<?php //echo anchor('index.php/CommandCtrl/getTranslations', 'Get the JSON list of translations', 'class="button-link"');
+echo anchor('index.php/translations', 'Get the JSON list of translations', 'class="button-link"');
+?><br><br>
+<?php echo anchor('index.php/CommandCtrl/getCommands', 'Get the next random 404', 'class="button-link"'); ?><br><br>

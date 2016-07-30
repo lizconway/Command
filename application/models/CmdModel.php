@@ -36,7 +36,8 @@ class CmdModel extends CI_Model {
 		return $query->result();
 	}
 
-	function getTranslations() {
+	function getTranslations($textSpeak) {
+// 		echo "Text Speak :  $textSpeak";
 		$this->db->select('txt, english')->from('textSpeak');
 
 		$query = $this->db->get();
