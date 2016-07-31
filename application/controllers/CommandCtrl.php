@@ -46,6 +46,7 @@ class CommandCtrl extends CI_Controller {
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments/z where z is between 1 and 11 inclusive
 	 */
 	public function getCommandments($from = 0, $to = 0) {
+
 		$this->load->model('CmdModel', 'cmdData', true);
 
 		$data['commandments'] = array();
@@ -115,7 +116,18 @@ class CommandCtrl extends CI_Controller {
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getTranslations
 	 * 		http://localhost/ServerSide/Assessment/WebService/translations
 	 */
-	public function getTranslations($textSpeak = null) {
+	//public function getTranslations($textSpeak = null) {
+	public function getTranslations() {
+		/* Cannot find single translation for words ending in a forward slash
+		 * or words containing & or !(disallowed character)
+		 */
+
+		/* Required since some text Speak contains forward slashes '/'	*/
+		$textSpeak = implode("/", func_get_args());
+		//echo "$textSpeak\n";
+		/*	Replace '%20' with a space	*/
+		$textSpeak = str_replace("%20", " ", $textSpeak);
+		//echo "Number of arguments = ".func_num_args()."\n";
 		$this->load->model('CmdModel', 'cmdData', true);
 
 		$data['translations'] = array();

@@ -14,13 +14,16 @@ class CmdModel extends CI_Model {
 	function getCommandments($from, $to) {
 		$this->db->select('number, title, description, url')->from('commandments');
 
+		/*
+		 * Allows for parameters to be added in reverse order
+		 */
 		$higher = max($from, $to);
 		$lower = min($from, $to);
 
-		if($lower > 0 && $lower < 11) {
+		if($lower != 0) {
 			$this->db->where('number >=', $lower);
 		}
-		if($higher > 0 && $higher < 11) {
+		if($higher != 0) {
 			$this->db->where('number <=', $higher);
 		}
 
@@ -32,6 +35,9 @@ class CmdModel extends CI_Model {
 		$this->db->order_by('number', $order);
 
 		$query = $this->db->get();
+
+		/* $qry = $this->db->last_query();
+		echo "\n$qry\n"; */
 
 		return $query->result();
 	}

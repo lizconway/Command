@@ -59,3 +59,7 @@ $route['commandments/(:num)'] = 'CommandCtrl/getCommandments/$1/$1';
 $route['commandments'] = 'CommandCtrl/getCommandments/0/0';
 $route['translations'] = 'CommandCtrl/getTranslations';
 $route['translations/(:any)']  = 'CommandCtrl/getTranslations/$1';
+/*	Required if the parameter to translations contains a '/'  */
+$route['translations/(:any)/(:any)']  = 'CommandCtrl/getTranslations/$1/$2';
+/*	Required if the parameter to translations ends in a '/'  */
+// $route['translations/(:any)/']  = 'CommandCtrl/getTranslations/$1/%2F';
