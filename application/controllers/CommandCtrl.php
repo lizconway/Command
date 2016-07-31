@@ -1,16 +1,36 @@
 <?php
+/*
+* Author: Elizabeth Conway
+* Assignment: WE4.0 Server-side Web Development, Digital Skills Academy
+* Student ID: D11122173
+* Date : 2016/07/31
+* Ref: https://en.wikipedia.org/wiki/Ten_Commandments
+*/
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-//include_once 'application/models/NewsArticle.php';
-
+/**
+ * CommandCtrl class - the Controller in the MVC architecture.
+ * This class contains the main logic for this Web Service.
+ * It exposes two endpoints via its getCommandments() and getTranslations() methods.
+ * Each endpoint will give a JSON object containing commandments and translations respectively.
+ * Invoking the default behaviour of this class via http://localhost/ServerSide/Assessment/WebService
+ * will call the index() method which take you to a page where you can call the methods of this class.
+ *
+ * @author liz
+ *
+ */
 class CommandCtrl extends CI_Controller {
 
+	/**
+	 * This is the constructor method of this class
+	 * It call the parent classes constructor (CI_Controller)
+	 */
 	function CommandCtrl() {
 		parent::__construct();
-		//$this->load->library('session');
 
+		/* URL helper is autoloaded in config/autoload.php */
 		// Loading url helper
-		$this->load->helper('url');
+		//$this->load->helper('url');
 	}
 
 	/**
@@ -25,25 +45,34 @@ class CommandCtrl extends CI_Controller {
 	 * config/routes.php, it's displayed at http://localhost/ServerSide/Assessment/WebService
 	 *
 	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/command/<method_name>
+	 * map to /index.php/CommandCtrl/<method_name>
+	 *  - or -
+	 *  to /CommandCtrl/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
 
-		/* echo "<div class='container'>";
-		echo "    <h1>Yah Boo!</h1>";
-		echo "    <p>From the index function</p>";
-		echo "</div>"; */
+		/* Deliberately cause a 404 error
+		 * This will invoke the customer 404 error controller
+		 * and display the custom 404 error page */
 		$this->load->view('CommandView');
-
 	}
 
 	/**
-	 * Maps to the following EndPoint
-	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getCommandments
+	 * This function retrieves commandments from the CmdModel's getCommandments() function.
+	 * It send any arguments to the CmdModel's getCommandments() function,
+	 * which allows a subset of the commandments to be returned.
+	 * It strips out any null descriptions and accumulates all the commandments into an array.
+	 * It then sends this commandments array to the CmdView view.
+	 *
+	 * Maps to the following EndPoints
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/CommandCtrl/getCommandments
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments
+	 * 		http://localhost/ServerSide/Assessment/WebService/commandments
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments/x/y where x and y are between 1 and 11 inclusive
+	 * 		http://localhost/ServerSide/Assessment/WebService/commandments/x/y where x and y are between 1 and 11 inclusive
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/commandments/z where z is between 1 and 11 inclusive
+	 * 		http://localhost/ServerSide/Assessment/WebService/commandments/z where z is between 1 and 11 inclusive
 	 */
 	public function getCommandments($from = 0, $to = 0) {
 
@@ -82,52 +111,48 @@ class CommandCtrl extends CI_Controller {
 
 		$this->load->view('CmdView', $data);
 
-		/* $this->load->library('parser');
-
-		$this->load->view('templates/cmd_header');
-		$this->parser->parse('CmdView', $data);
-		$this->load->view('templates/cmd_footer'); */
 	}
 
 	/**
+	 * This function retrieves translations from the CmdModel's getTranslations() function.
+	 * It captures any arguments using PHP's get_func_args() function.
+	 * It uses get_func_args() rather than using formal parameters because we need to treat
+	 * arguments containing a forward slash as one argument, however CodeIgniter will split
+	 * any argument containing a forward slash into 2 or more arguments.
+	 * This function combines any arguments containing slashes that were split up by CodeIgniter
+	 * into a single argument.
+	 * It then replaces any %20 into a space character in the argument.
+	 *
+	 * It send any argument to the CmdModel's getTranslations() function,
+	 * which allows a single translation to be returned.
+	 * It accumulates all the translations into an array.
+	 * It then sends this translations array to the TxtView view.
+	 *
 	 * Maps to the following EndPoint
-	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getTranslations
+	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/CommandCtrl/getTranslations
+	 * 		http://localhost/ServerSide/Assessment/WebService/CommandCtrl/getTranslations
 	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/translations
-	 */
-	/* public function getTranslations() {
-		$this->load->model('CmdModel', 'cmdData', true);
-
-		$data['translations'] = array();
-		$translate['textSpeak'] = array();
-
-		// Retrieve data model
-		foreach($this->cmdData->getTranslations(null) as $txt) {
-			$translation = array('txt' => $txt->txt, 'english' => $txt->english);
-			array_push($translate['textSpeak'], $translation);
-		}
-		array_push($data['translations'], $translate);
-
-		$this->load->view('TxtView', $data);
-
-	} */
-
-	/**
-	 * Maps to the following EndPoint
-	 * 		http://localhost/ServerSide/Assessment/WebService/index.php/Command/getTranslations
 	 * 		http://localhost/ServerSide/Assessment/WebService/translations
 	 */
 	//public function getTranslations($textSpeak = null) {
 	public function getTranslations() {
-		/* Cannot find single translation for words ending in a forward slash
-		 * or words containing & or !(disallowed character)
+		/* Words ending in a forward slash (e.g. "w/")
+		 * cannot be found in this method because of the special nature of forward slashes
+		 * in RESTful APIs
 		 */
 
-		/* Required since some text Speak contains forward slashes '/'	*/
+		/**
+		 * REF :	http://stackoverflow.com/questions/14635692/codeigniter-how-to-capture-slashes-in-route-and-pass-to-controller
+		 * Retrieve the arguments from 'func_get_args()'
+		 * Required since some text Speak contains forward slashes ('/') E.g. "w/end"
+		 * This should be one argument but is passed into getTranslations() function
+		 * as two (or more) by CodeIgniter.
+		 **/
 		$textSpeak = implode("/", func_get_args());
-		//echo "$textSpeak\n";
+
 		/*	Replace '%20' with a space	*/
 		$textSpeak = str_replace("%20", " ", $textSpeak);
-		//echo "Number of arguments = ".func_num_args()."\n";
+
 		$this->load->model('CmdModel', 'cmdData', true);
 
 		$data['translations'] = array();
@@ -142,17 +167,12 @@ class CommandCtrl extends CI_Controller {
 		}
 		array_push($data['translations'], $translate);
 
-// 		var_dump($data);
+		/*
+		 * Pass the translations into the view
+		 * and display them
+		 */
 		$this->load->view('TxtView', $data);
 
-		/* $this->load->library('parser');
-
-		$this->load->view('templates/cmd_header');
-		$this->parser->parse('TxtView', $data);
-		$this->load->view('templates/cmd_footer'); */
-		/* $this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data)); */
 	}
 
 }

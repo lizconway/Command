@@ -1,3 +1,10 @@
+<!--
+* Author: Elizabeth Conway
+* Assignment: WE4.0 Server-side Web Development, Digital Skills Academy
+* Student ID: D11122173
+* Date : 2016/07/31
+* Ref: https://en.wikipedia.org/wiki/Ten_Commandments
+ -->
 <?php
 /*
  * REF :  http://stackoverflow.com/questions/1761252/how-to-get-random-image-from-directory-using-php

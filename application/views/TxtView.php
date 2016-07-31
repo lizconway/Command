@@ -1,6 +1,20 @@
 <?php
-/* echo "<h1>Text Speak</h1>";
-var_dump($translations[0]); */
+/*
+* Author: Elizabeth Conway
+* Assignment: WE4.0 Server-side Web Development, Digital Skills Academy
+* Student ID: D11122173
+* Date : 2016/07/31
+* Ref: https://en.wikipedia.org/wiki/Ten_Commandments
+*/
+
+ /**
+  * TxtView - a View in the MVC architecture.
+  * It is responsible for generating JSON output for the translations
+  * $translations is the data sent by the CommandCtrl->getTranslations() function
+  *
+  * @author liz
+  *
+  */
 
 /**
  * JSON verified using JSONLint and JSON Formatter

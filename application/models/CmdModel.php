@@ -1,6 +1,26 @@
 <?php
+/*
+* Author: Elizabeth Conway
+* Assignment: WE4.0 Server-side Web Development, Digital Skills Academy
+* Student ID: D11122173
+* Date : 2016/07/31
+* Ref: https://en.wikipedia.org/wiki/Ten_Commandments
+*/
+
+/**
+ * CmdModel - the Model class in the MVC architecture.
+ * It connects to the database specified in config/database.php
+ * The database is autoloaded in config/autoload.php
+ *
+ * @author liz
+ *
+ */
 class CmdModel extends CI_Model {
 
+	/**
+	 * This is the constructor method of this class
+	 * It call the parent classes constructor (CI_Model)
+	 */
 	function CmdModel() {
 		parent::__construct();
 		/**
@@ -11,6 +31,17 @@ class CmdModel extends CI_Model {
 		//parent::Model();
 	}
 
+	/**
+	 * This function retrieve commandment data from the database.
+	 * A subset of the commandments to retrieve can be specified using the
+	 * $from and $to parameters.
+	 * If both parameters are zero then retrieve all the commandments
+	 *
+	 * @param integer $from - The start of the commandments to retrieve
+	 * 							If this is zero - start with the first commandment
+	 * @param integer $to - The end of the commandments to retrieve
+	 * 							If this is zero - end with the last commandment
+	 */
 	function getCommandments($from, $to) {
 		$this->db->select('number, title, description, url')->from('commandments');
 
@@ -27,6 +58,9 @@ class CmdModel extends CI_Model {
 			$this->db->where('number <=', $higher);
 		}
 
+		/*
+		 * If $from is higher than $to then retrieve the commandment in descending order.
+		 */
 		if($from > $to) {
 			$order = 'DESC';
 		} else {
@@ -42,8 +76,15 @@ class CmdModel extends CI_Model {
 		return $query->result();
 	}
 
+	/**
+	 * This function retrieve translation data from the database.
+	 * A single translation to retrieve can be specified using the $textSpeak parameter.
+	 * If the parameter is null then retrieve all the translations
+	 *
+	 * @param String $textSpeak
+	 */
 	function getTranslations($textSpeak) {
-// 		echo "Text Speak :  $textSpeak";
+
 		$this->db->select('txt, english')->from('textSpeak');
 
 		if($textSpeak != null) {
